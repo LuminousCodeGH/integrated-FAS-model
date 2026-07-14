@@ -1,6 +1,6 @@
 # Integrated Dynamic Model: FAS, LPS, and PLS
 
-Welcome to the public repository for our master's thesis project Systems Biology at the Vrije Universiteit Amsterdam. 
+Welcome to the public repository for our master's thesis project Systems Biology at the Vrije Universiteit Amsterdam, supervised by Frank J. Bruggeman and Gregory Bokinsky.
 
 This repository contains the code, data, and scripts used to model and analyze three interconnected biosynthetic pathways: **Fatty Acid Synthesis (FAS)**, **Lipopolysaccharide (LPS) Synthesis**, and **Phospholipid Synthesis (PLS)**. 
 
@@ -10,9 +10,9 @@ It was used to study how growth perturbations affect the membrane phospholipid c
 
 ## Model Attributions & Credits
 
-This integrated model stands on the shoulders of existing work. Specifically:
+This integrated model stands on the shoulders of existing work. This includes, among countless others:
 *   **Fatty Acid Synthesis (FAS):** The FAS pathway kinetics are adapted and built upon the model by [**Ruppe et al. (2020)**](https://doi.org/10.1073/pnas.2013924117). (Referenced in our files and data as the "Fox" model).
-*   **Lipopolysaccharide (LPS) Synthesis:** The LPS pathway kinetics are adapted from the model by [**Emiola et al. (2015)**](https://doi.org/10.1371/journal.pone.0121216).
+*   **Lipopolysaccharide Synthesis (LPS):** The LPS pathway kinetics are adapted from the model by [**Emiola et al. (2015)**](https://doi.org/10.1371/journal.pone.0121216).
 *   **Experimental Data:** Used to compare our simulated steady-state concentrations to by [**Noga et al. (2020)**](https://doi.org/10.1128/mbio.02703-19).
 
 ---
