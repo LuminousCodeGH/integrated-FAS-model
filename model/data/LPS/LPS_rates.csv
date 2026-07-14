@@ -1,0 +1,8 @@
+"vLpxA==(eLpxAtot*kcatfLpxA*y44[t]*yL1[t])/((Km44LpxA + y44[t])*(KmL1LpxA + yL1[t])) - (eLpxAtot*kcatrLpxA*y4[t]*yL2[t])/((Km4LpxA + y4[t])*(KmL2LpxA + yL2[t]))"
+"vLpxC==(eLpxCtot*kcatLpxC*yL2[t])/((KmLpxC + yL2[t])*(1 + (yL7[t]/gamma)^nu))"
+"vLpxD==(eLpxDtot*kcatLpxD*y44[t]*yL3[t])/((1 + y4[t]/KiLpxD)*(Km44LpxD + y44[t])*(KmL3LpxD + yL3[t]))"
+"vLpxH==(eLpxHtot*kcatLpxH*yL4[t])/((KmLpxH + yL4[t])*(1 + yL6[t]/KiLpxH))"
+"vLpxB==(eLpxBtot*kcatLpxB*yL4[t]*yL5[t])/((KmL4LpxB + yL4[t])*(KmL5LpxB + yL5[t]))"
+"vLpxK==(eLpxKtot*kcatLpxK*yL7[t])/(KmLpxK + yL7[t])"
+"vLpxL==0"
+"vLpxM==0"

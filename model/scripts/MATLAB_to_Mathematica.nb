@@ -1,0 +1,397 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     14959,        389]
+NotebookOptionsPosition[     13611,        361]
+NotebookOutlinePosition[     13999,        377]
+CellTagsIndexPosition[     13956,        374]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+Convert MATLAB ODEs to Mathematica ODEs and save the new equations to disk\
+\>", "Text",
+ CellChangeTimes->{{3.980925043836678*^9, 
+  3.9809250615759163`*^9}},ExpressionUUID->"914de624-6acd-42cd-afa1-\
+ffefdae232e2"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"inputFileYear", "=", "\"\<2022\>\""}], ";"}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Change", " ", "this", " ", "to", " ", "2022", " ", "or", " ", "2020"}], 
+   " ", "*)"}]}]], "Input",
+ CellChangeTimes->{{3.980925165130714*^9, 3.980925214534079*^9}, {
+  3.9809254629186897`*^9, 3.980925468169846*^9}, {3.980925751469852*^9, 
+  3.980925758403204*^9}, {3.980926744711421*^9, 3.9809267448957787`*^9}},
+ CellLabel->"In[21]:=",ExpressionUUID->"79e21b6e-a324-4a47-9188-be3752a56416"],
+
+Cell["Convert the equations to Mathematica", "Text",
+ CellChangeTimes->{{3.980925194588019*^9, 
+  3.9809252033764553`*^9}},ExpressionUUID->"907de615-22d7-4615-a4b5-\
+a7fb9f1ab30d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"inputPath", "=", 
+  RowBox[{"FileNameJoin", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ",", "\"\<raw_input\>\"",
+      ",", 
+     RowBox[{"inputFileYear", "<>", "\"\<_fox_ODEs_MATLAB.csv\>\""}]}], "}"}],
+    "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"outputPath", "=", 
+  RowBox[{"FileNameJoin", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ",", 
+     " ", "\"\<data/FAS\>\"", ",", 
+     RowBox[{"inputFileYear", "<>", "\"\<_fox_ODEs.csv\>\""}]}], "}"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"MakeMathematicaODEs", "[", "matlabEqs_", "]"}], ":=", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"FUNC", ":", " ", 
+    RowBox[{"Parse", " ", "the", " ", "ODEs", " ", "from", " ", "an", " ", 
+     RowBox[{"Excel", "/", "CSV"}], " ", "sheet"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "repl1", ",", "repl2", ",", "repl3", ",", "repl4", ",", "repl5", ",", 
+      "repl6", ",", "repl7", ",", "repl8", ",", "repl9", ",", "repl10", ",", 
+      " ", "ODElist", ",", " ", "ODEexprs", ",", " ", "ODEs"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"ODElist", "=", 
+      RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"For", "[", 
+      RowBox[{
+       RowBox[{"i", "=", "1"}], ",", 
+       RowBox[{"i", "<=", 
+        RowBox[{"Length", "[", "matlabEqs", "]"}]}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"repl1", "=", 
+         RowBox[{"StringReplace", "[", 
+          RowBox[{
+           RowBox[{"matlabEqs", "[", 
+            RowBox[{"[", 
+             RowBox[{"i", ",", "1"}], "]"}], "]"}], ",", 
+           RowBox[{"\"\<y(\>\"", "->", "\"\<y\>\""}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"repl2", "=", 
+         RowBox[{"StringReplace", "[", 
+          RowBox[{"repl1", ",", 
+           RowBox[{"\"\<,:)\>\"", "->", "\"\<[t]\>\""}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"repl3", "=", 
+         RowBox[{"StringReplace", "[", 
+          RowBox[{"repl2", ",", 
+           RowBox[{"\"\<dy\>\"", "->", "\"\<y\>\""}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"repl4", "=", 
+         RowBox[{"StringReplace", "[", 
+          RowBox[{"repl3", ",", 
+           RowBox[{"\"\<[t] =\>\"", "->", "\"\<'[t]==\>\""}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"repl5", "=", 
+         RowBox[{"StringReplace", "[", 
+          RowBox[{"repl4", ",", 
+           RowBox[{"\"\<[t]  =\>\"", "->", "\"\<'[t]==\>\""}]}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"repl6", "=", 
+         RowBox[{"StringReplace", "[", 
+          RowBox[{"repl5", ",", 
+           RowBox[{"\"\<.*\>\"", "->", "\"\< \>\""}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"repl7", "=", 
+         RowBox[{"StringReplace", "[", 
+          RowBox[{"repl6", ",", 
+           RowBox[{"\"\<_\>\"", "->", "\"\<\>\""}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"repl8", "=", 
+         RowBox[{"StringReplace", "[", 
+          RowBox[{"repl7", ",", 
+           RowBox[{"\"\<e_\>\"", "->", "\"\<e~[t]\>\""}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"repl9", "=", 
+         RowBox[{"StringReplace", "[", 
+          RowBox[{"repl8", ",", 
+           RowBox[{"\"\<(\>\"", "->", "\"\<\>\""}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"repl10", "=", 
+         RowBox[{"StringReplace", "[", 
+          RowBox[{"repl9", ",", 
+           RowBox[{"\"\<)\>\"", "->", "\"\<\>\""}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ODElist", "=", 
+         RowBox[{"AppendTo", "[", 
+          RowBox[{"ODElist", ",", "repl10"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"i", "++"}]}]}], "\[IndentingNewLine]", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"ToExpression", " ", "is", " ", 
+           RowBox[{"a", " ", "'"}], "pure", " ", 
+           RowBox[{"function", "'"}], " ", "that", " ", "terminates", " ", 
+           "at", " ", 
+           RowBox[{"the", " ", "'"}]}], "&"}], "'"}], ".", " ", "As"}], " ", 
+       "input", " ", 
+       RowBox[{"(", 
+        RowBox[{"'", 
+         RowBox[{"#", "'"}]}], ")"}], " ", "it", " ", "takes", " ", "every", " ",
+        "element", " ", "from", " ", "the", " ", "ODElist", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"'", "/@"}], "'"}], ")"}], " ", "and", " ", "passes", " ", 
+       "it", " ", "to", " ", "the", " ", "pure", " ", "function"}], " ", 
+      "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"ODEexprs", " ", "=", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"ToExpression", "[", "#", "]"}], "&"}], "/@", "ODElist"}]}], ";",
+      "\[IndentingNewLine]", 
+     RowBox[{"ODEs", "=", 
+      RowBox[{"ODEexprs", "/.", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"e1", "->", 
+          RowBox[{"e1", "[", "t", "]"}]}], ",", 
+         RowBox[{"e2", "->", 
+          RowBox[{"e2", "[", "t", "]"}]}], ",", 
+         RowBox[{"e3", "->", 
+          RowBox[{"e3", "[", "t", "]"}]}], ",", 
+         RowBox[{"e4", "->", 
+          RowBox[{"e4", "[", "t", "]"}]}], ",", 
+         RowBox[{"e4", "->", 
+          RowBox[{"e4", "[", "t", "]"}]}], ",", 
+         RowBox[{"e5", "->", 
+          RowBox[{"e5", "[", "t", "]"}]}], ",", 
+         RowBox[{"e6", "->", 
+          RowBox[{"e6", "[", "t", "]"}]}], ",", 
+         RowBox[{"e7", "->", 
+          RowBox[{"e7", "[", "t", "]"}]}], ",", 
+         RowBox[{"e8", "->", 
+          RowBox[{"e8", "[", "t", "]"}]}], ",", 
+         RowBox[{"e9", "->", 
+          RowBox[{"e9", "[", "t", "]"}]}], ",", 
+         RowBox[{"e10", "->", 
+          RowBox[{"e10", "[", "t", "]"}]}]}], "}"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Return", "[", "ODEs", "]"}]}]}], "\[IndentingNewLine]", 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"importedODEs", "=", 
+   RowBox[{"Import", "[", "inputPath", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"importedODEs", "[", 
+   RowBox[{"[", 
+    RowBox[{"1", ";;", "3"}], "]"}], "]"}], "//", "TableForm"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ODEs", "=", 
+   RowBox[{"MakeMathematicaODEs", "[", "importedODEs", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ODEs", "[", 
+   RowBox[{"[", 
+    RowBox[{"1", ";;", "3"}], "]"}], "]"}], "//", "TableForm"}]}], "Input",
+ CellChangeTimes->{{3.980925083711958*^9, 3.9809250846717787`*^9}, 
+   3.98092512638533*^9, {3.980925745572303*^9, 3.980925746230318*^9}, {
+   3.980925777218878*^9, 3.980925828960691*^9}, 3.9809258868256817`*^9, {
+   3.9809259186674223`*^9, 3.980925992435719*^9}, {3.98092654381989*^9, 
+   3.9809265677586737`*^9}, {3.980926691128372*^9, 3.980926700344365*^9}, {
+   3.993011993403634*^9, 
+   3.9930119939673147`*^9}},ExpressionUUID->"9a860597-f7e9-4632-8373-\
+eec8dc26439f"],
+
+Cell[BoxData["\<\"/home/jacobr/Documents/Masters/Thesis/Project/phospholipid-\
+synthesis-dynamics/model/raw_input/2022_fox_ODEs_MATLAB.csv\"\>"], "Output",
+ CellChangeTimes->{{3.9809266804256277`*^9, 3.980926701226506*^9}, 
+   3.9809267472773733`*^9},
+ CellLabel->"Out[22]=",ExpressionUUID->"9fab0836-3c8f-426a-ae0f-762625267c88"],
+
+Cell[BoxData["\<\"/home/jacobr/Documents/Masters/Thesis/Project/phospholipid-\
+synthesis-dynamics/model/data/2022_fox_ODEs.csv\"\>"], "Output",
+ CellChangeTimes->{{3.9809266804256277`*^9, 3.980926701226506*^9}, 
+   3.980926747304124*^9},
+ CellLabel->"Out[23]=",ExpressionUUID->"52eb2685-5cad-4c4f-89d4-deaf8152a546"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"dy(1,:) = k1_1r.*y(83,:) - k1_1f.*e1.*y(1,:)\"\>"},
+    {"\<\" dy(2,:) = k1_2r.*y(84,:) - k1_2f.*y(83,:).*y(2,:)\"\>"},
+    {"\<\" dy(3,:) = k1_3r.*y(86,:) + k3_1r.*y(90,:) - k1_3f.*y(85,:).*y(3,:) \
+- k3_1f.*e3.*y(3,:)  - k10_4f.*e10.*y(3,:) + k10_4r.*y(305,:) - \
+k8_4f.*e8.*y(3,:) + k8_4r.*y(308,:)\"\>"}
+   },
+   GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
+   GridBoxSpacings->{"Columns" -> {
+       Offset[0.27999999999999997`], {
+        Offset[2.0999999999999996`]}, 
+       Offset[0.27999999999999997`]}, "Rows" -> {
+       Offset[0.2], {
+        Offset[0.4]}, 
+       Offset[0.2]}}],
+  Function[BoxForm`e$, 
+   TableForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{{3.9809266804256277`*^9, 3.980926701226506*^9}, 
+   3.980926747342128*^9},
+ CellLabel->
+  "Out[26]//TableForm=",ExpressionUUID->"e1714b54-89e8-4db2-bd7b-\
+63d81268e0e7"],
+
+Cell[BoxData[
+ TagBox[
+  TagBox[GridBox[{
+     {
+      RowBox[{
+       RowBox[{
+        SuperscriptBox["y1", "\[Prime]",
+         MultilineFunction->None], "[", "t", "]"}], "\[Equal]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "k11f"}], " ", 
+         RowBox[{"e1", "[", "t", "]"}], " ", 
+         RowBox[{"y1", "[", "t", "]"}]}], "+", 
+        RowBox[{"k11r", " ", 
+         RowBox[{"y83", "[", "t", "]"}]}]}]}]},
+     {
+      RowBox[{
+       RowBox[{
+        SuperscriptBox["y2", "\[Prime]",
+         MultilineFunction->None], "[", "t", "]"}], "\[Equal]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "k12f"}], " ", 
+         RowBox[{"y2", "[", "t", "]"}], " ", 
+         RowBox[{"y83", "[", "t", "]"}]}], "+", 
+        RowBox[{"k12r", " ", 
+         RowBox[{"y84", "[", "t", "]"}]}]}]}]},
+     {
+      RowBox[{
+       RowBox[{
+        SuperscriptBox["y3", "\[Prime]",
+         MultilineFunction->None], "[", "t", "]"}], "\[Equal]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "k104f"}], " ", 
+         RowBox[{"e10", "[", "t", "]"}], " ", 
+         RowBox[{"y3", "[", "t", "]"}]}], "-", 
+        RowBox[{"k31f", " ", 
+         RowBox[{"e3", "[", "t", "]"}], " ", 
+         RowBox[{"y3", "[", "t", "]"}]}], "-", 
+        RowBox[{"k84f", " ", 
+         RowBox[{"e8", "[", "t", "]"}], " ", 
+         RowBox[{"y3", "[", "t", "]"}]}], "+", 
+        RowBox[{"k104r", " ", 
+         RowBox[{"y305", "[", "t", "]"}]}], "+", 
+        RowBox[{"k84r", " ", 
+         RowBox[{"y308", "[", "t", "]"}]}], "-", 
+        RowBox[{"k13f", " ", 
+         RowBox[{"y3", "[", "t", "]"}], " ", 
+         RowBox[{"y85", "[", "t", "]"}]}], "+", 
+        RowBox[{"k13r", " ", 
+         RowBox[{"y86", "[", "t", "]"}]}], "+", 
+        RowBox[{"k31r", " ", 
+         RowBox[{"y90", "[", "t", "]"}]}]}]}]}
+    },
+    GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.5599999999999999]}, 
+        Offset[0.27999999999999997`]}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}}],
+   Column],
+  Function[BoxForm`e$, 
+   TableForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{{3.9809266804256277`*^9, 3.980926701226506*^9}, 
+   3.980926747391527*^9},
+ CellLabel->
+  "Out[28]//TableForm=",ExpressionUUID->"4209a3cf-dc11-4c2f-9493-\
+6d43cfb26522"]
+}, Open  ]],
+
+Cell["Export the new ODEs", "Text",
+ CellChangeTimes->{{3.9809265730379*^9, 
+  3.980926576502307*^9}},ExpressionUUID->"cc6b828b-e7ff-4742-9f8f-\
+9088a06335b4"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ODEsStr", "=", 
+   RowBox[{"ToString", "/@", "ODEs"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Export", "[", 
+  RowBox[{"outputPath", ",", "ODEsStr", ",", "\"\<CSV\>\""}], "]"}]}], "Input",\
+
+ CellChangeTimes->{{3.980926583911675*^9, 3.980926587021538*^9}, {
+  3.980926619803437*^9, 3.980926668928564*^9}},
+ CellLabel->"In[29]:=",ExpressionUUID->"ff8246e2-6ee7-4444-921a-59dfba9e3a1b"],
+
+Cell[BoxData["\<\"/home/jacobr/Documents/Masters/Thesis/Project/phospholipid-\
+synthesis-dynamics/model/data/2022_fox_ODEs.csv\"\>"], "Output",
+ CellChangeTimes->{3.980926682674219*^9, 3.980926747450441*^9},
+ CellLabel->"Out[30]=",ExpressionUUID->"382a3e15-6fd8-45f3-ac3c-2af38650bdf7"]
+}, Open  ]]
+},
+WindowSize->{1407, 792},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"14.3 for Linux x86 (64-bit) (July 8, 2025)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"c9caed16-70d7-4386-bba0-a41f78eb56c2"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 226, 5, 33, "Text",ExpressionUUID->"914de624-6acd-42cd-afa1-ffefdae232e2"],
+Cell[783, 27, 530, 11, 29, "Input",ExpressionUUID->"79e21b6e-a324-4a47-9188-be3752a56416"],
+Cell[1316, 40, 180, 3, 33, "Text",ExpressionUUID->"907de615-22d7-4615-a4b5-a7fb9f1ab30d"],
+Cell[CellGroupData[{
+Cell[1521, 47, 7198, 179, 588, "Input",ExpressionUUID->"9a860597-f7e9-4632-8373-eec8dc26439f"],
+Cell[8722, 228, 330, 4, 33, "Output",ExpressionUUID->"9fab0836-3c8f-426a-ae0f-762625267c88"],
+Cell[9055, 234, 316, 4, 33, "Output",ExpressionUUID->"52eb2685-5cad-4c4f-89d4-deaf8152a546"],
+Cell[9374, 240, 909, 22, 89, "Output",ExpressionUUID->"e1714b54-89e8-4db2-bd7b-63d81268e0e7"],
+Cell[10286, 264, 2397, 70, 89, "Output",ExpressionUUID->"4209a3cf-dc11-4c2f-9493-6d43cfb26522"]
+}, Open  ]],
+Cell[12698, 337, 159, 3, 33, "Text",ExpressionUUID->"cc6b828b-e7ff-4742-9f8f-9088a06335b4"],
+Cell[CellGroupData[{
+Cell[12882, 344, 424, 9, 49, "Input",ExpressionUUID->"ff8246e2-6ee7-4444-921a-59dfba9e3a1b"],
+Cell[13309, 355, 286, 3, 33, "Output",ExpressionUUID->"382a3e15-6fd8-45f3-ac3c-2af38650bdf7"]
+}, Open  ]]
+}
+]
+*)
+
